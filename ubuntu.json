@@ -5,13 +5,13 @@
         "version": "24.04"
     },
     "stable": {
-        "dist": "plucky",
-        "name": "Plucky Puffin",
-        "version": "25.04"
+        "dist": "questing",
+        "name": "Questing Quokka",
+        "version": "25.10"
     },
     "core24": {
         "dist": "noble",
         "name": "Noble Numbat",
-        "version": "25.04"
+        "version": "24.04"
     }
 }
