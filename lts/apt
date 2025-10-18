@@ -14,7 +14,6 @@ RUN <<-EOT
     echo "console-setup console-setup/fontsize-fb47 select 8x16" | debconf-set-selections
     echo "console-setup console-setup/fontsize-text47 select 8x16" | debconf-set-selections
     echo "console-setup console-setup/store_defaults_in_debconf_db boolean true" | debconf-set-selections
-    deluser --remove-home ubuntu
 EOT
 
 FROM base AS apt
@@ -22,7 +21,7 @@ RUN <<-EOT
     apt-get update 
     apt-get install -y ubuntu-minimal
     rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
-    ${POST_INSTALL_CMD}
+    deluser --remove-home ubuntu
 EOT
 
 FROM scratch
