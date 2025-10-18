@@ -2,16 +2,73 @@
     "lts": {
         "dist": "noble",
         "name": "Noble Numbat",
-        "version": "24.04"
+        "version": "24.04",
+        "architectures": ["amd64", "arm64"],
+        "image": {
+            "apt": {
+                "primary": "ghcr.io/sirf-project/releases/lts:apt",
+                "secondary": null
+            },
+            "snap": {
+                "primary": "ghcr.io/sirf-project/releases/lts:snap",
+                "secondary": null
+            },
+            "flatpak": {
+                "primary": "ghcr.io/sirf-project/releases/lts:flatpak",
+                "secondary": null
+            },
+            "all": {
+                "primary": "ghcr.io/sirf-project/releases/lts:all",
+                "secondary": null
+            }
+        }
     },
     "stable": {
         "dist": "questing",
         "name": "Questing Quokka",
-        "version": "25.10"
+        "version": "25.10",
+        "architectures": ["amd64", "arm64"],
+        "image": {
+            "apt": {
+                "primary": "ghcr.io/sirf-project/releases/stable:apt",
+                "secondary": null
+            },
+            "snap": {
+                "primary": "ghcr.io/sirf-project/releases/stable:snap",
+                "secondary": null
+            },
+            "flatpak": {
+                "primary": "ghcr.io/sirf-project/releases/stable:flatpak",
+                "secondary": null
+            },
+            "all": {
+                "primary": "ghcr.io/sirf-project/releases/stable:all",
+                "secondary": null
+            }
+        }
     },
     "core24": {
         "dist": "noble",
         "name": "Noble Numbat",
-        "version": "24.04"
+        "version": "24.04",
+        "architectures": ["amd64", "arm64"],
+        "image": {
+            "apt": {
+                "primary": "ghcr.io/sirf-project/releases/core24:apt",
+                "secondary": null
+            },
+            "snap": {
+                "primary": "ghcr.io/sirf-project/releases/core24:snap",
+                "secondary": null
+            },
+            "flatpak": {
+                "primary": "ghcr.io/sirf-project/releases/core24:flatpak",
+                "secondary": null
+            },
+            "all": {
+                "primary": "ghcr.io/sirf-project/releases/core24:all",
+                "secondary": null
+            }
+        }
     }
 }
