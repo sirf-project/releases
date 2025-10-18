@@ -1,0 +1,7 @@
+FROM ghcr.io/sirf-project/releases/stable:apt
+
+RUN <<-EOT
+    apt-get update 
+    apt-get install -y snapd xdelta3
+    rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
+EOT

@@ -1,0 +1,8 @@
+FROM ghcr.io/sirf-project/releases/stable:apt
+
+RUN <<-EOT
+    apt-get update 
+    apt-get install -y flatpak
+    rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+EOT

@@ -1,0 +1,31 @@
+FROM docker.io/library/ubuntu:rolling AS base
+
+RUN apt-get update && apt-get install --no-install-recommends -y debconf-utils perl
+
+RUN <<-EOT
+    echo "keyboard-configuration console-setup/ask_detect boolean false" | debconf-set-selections
+    echo "console-setup console-setup/charmap47 select UTF-8" | debconf-set-selections
+    echo "console-setup console-setup/codeset47 select Guess optimal character set" | debconf-set-selections
+    echo "console-setup/codesetcode string guess" | debconf-set-selections
+    echo "keyboard-configuration console-setup/detect detect-keyboard" | debconf-set-selections
+    echo "keyboard-configuration console-setup/detected note" | debconf-set-selections
+    echo "console-setup console-setup/fontface47 select Fixed" | debconf-set-selections
+    echo "console-setup/fontsize string 8x16" | debconf-set-selections
+    echo "console-setup console-setup/fontsize-fb47 select 8x16" | debconf-set-selections
+    echo "console-setup console-setup/fontsize-text47 select 8x16" | debconf-set-selections
+    echo "console-setup console-setup/store_defaults_in_debconf_db boolean true" | debconf-set-selections
+    deluser --remove-home ubuntu
+EOT
+
+FROM base AS apt
+RUN <<-EOT
+    apt-get update 
+    apt-get install -y ubuntu-minimal
+    rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
+    ${POST_INSTALL_CMD}
+EOT
+
+FROM scratch
+
+ENTRYPOINT ["/sbin/init" ]
+COPY --link --from=base / /
