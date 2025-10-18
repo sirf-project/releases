@@ -43,6 +43,10 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
     strategy:
       matrix:
         variant: [all, snap, flatpak]
@@ -53,20 +57,37 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3
       - name: Create and push multi-arch manifest for core24:${{ matrix.variant }}
         run: |
           docker buildx imagetools create \
             --tag ghcr.io/${{ github.repository }}/core24:${{ matrix.variant }} \
             ghcr.io/${{ github.repository }}/core24:${{ matrix.variant }}-amd64 \
             ghcr.io/${{ github.repository }}/core24:${{ matrix.variant }}-arm64
+      - name: Sign the image with keyless signing
+        run: |
+          cosign sign --yes \
+            ghcr.io/${{ github.repository }}/core24:${{ matrix.variant }}
 
   mirror-to-quay:
     needs: release
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       matrix:
         variant: [all, snap, flatpak]
     steps:
+      - name: Login to Quay.io
+        uses: docker/login-action@v3
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3
       - name: Mirror multi-arch manifest to Quay.io
         env:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
@@ -77,3 +98,7 @@ jobs:
             --dest-creds "$QUAY_USERNAME:$QUAY_PASSWORD" \
             docker://ghcr.io/sirf-project/releases/core24:${{ matrix.variant }} \
             docker://quay.io/sirf-project/releases/core24:${{ matrix.variant }}
+      - name: Sign the Quay.io mirror
+        run: |
+          cosign sign --yes \
+            quay.io/sirf-project/releases/core24:${{ matrix.variant }}
