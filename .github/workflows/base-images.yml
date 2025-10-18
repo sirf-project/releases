@@ -64,15 +64,22 @@
         - name: Install Cosign
           uses: sigstore/cosign-installer@v3
         - name: Create and push multi-arch manifest for ${{ matrix.image }}:apt
+          id: build
           run: |
             docker buildx imagetools create \
               --tag ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt \
               ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt-amd64 \
               ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt-arm64
+
+            # Get the digest of the multi-arch manifest we just created
+            DIGEST=$(docker buildx imagetools inspect ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt | grep "^Digest:" | awk '{print $2}')
+            echo "digest=${DIGEST}" >> $GITHUB_OUTPUT
+            echo "Manifest digest: ${DIGEST}"
         - name: Sign the image with keyless signing
           run: |
+            # Sign using digest (immutable reference) to avoid tag mutation warning
             cosign sign --yes \
-              ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt
+              ghcr.io/${{ github.repository }}/${{ matrix.image }}@${{ steps.build.outputs.digest }}
 
     mirror-to-quay:
       needs: release
@@ -93,6 +100,7 @@
         - name: Install Cosign
           uses: sigstore/cosign-installer@v3
         - name: Mirror multi-arch manifest to Quay.io
+          id: mirror
           env:
             QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
             QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
@@ -102,7 +110,13 @@
               --dest-creds "$QUAY_USERNAME:$QUAY_PASSWORD" \
               docker://ghcr.io/sirf-project/releases/${{ matrix.image }}:apt \
               docker://quay.io/sirf-project/releases/${{ matrix.image }}:apt
+
+            # Get the digest of the mirrored image
+            DIGEST=$(skopeo inspect docker://quay.io/sirf-project/releases/${{ matrix.image }}:apt | jq -r '.Digest')
+            echo "digest=${DIGEST}" >> $GITHUB_OUTPUT
+            echo "Mirror digest: ${DIGEST}"
         - name: Sign the Quay.io mirror
           run: |
+            # Sign using digest (immutable reference) to avoid tag mutation warning
             cosign sign --yes \
-              quay.io/sirf-project/releases/${{ matrix.image }}:apt
+              quay.io/sirf-project/releases/${{ matrix.image }}@${{ steps.mirror.outputs.digest }}

@@ -62,15 +62,22 @@ jobs:
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3
       - name: Create and push multi-arch manifest for stable:${{ matrix.variant }}
+        id: build
         run: |
           docker buildx imagetools create \
             --tag ghcr.io/${{ github.repository }}/stable:${{ matrix.variant }} \
             ghcr.io/${{ github.repository }}/stable:${{ matrix.variant }}-amd64 \
             ghcr.io/${{ github.repository }}/stable:${{ matrix.variant }}-arm64
+
+          # Get the digest of the multi-arch manifest we just created
+          DIGEST=$(docker buildx imagetools inspect ghcr.io/${{ github.repository }}/stable:${{ matrix.variant }} | grep "^Digest:" | awk '{print $2}')
+          echo "digest=${DIGEST}" >> $GITHUB_OUTPUT
+          echo "Manifest digest: ${DIGEST}"
       - name: Sign the image with keyless signing
         run: |
+          # Sign using digest (immutable reference) to avoid tag mutation warning
           cosign sign --yes \
-            ghcr.io/${{ github.repository }}/stable:${{ matrix.variant }}
+            ghcr.io/${{ github.repository }}/stable@${{ steps.build.outputs.digest }}
 
   mirror-to-quay:
     needs: release
@@ -91,6 +98,7 @@ jobs:
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3
       - name: Mirror multi-arch manifest to Quay.io
+        id: mirror
         env:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
           QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
@@ -100,8 +108,14 @@ jobs:
             --dest-creds "$QUAY_USERNAME:$QUAY_PASSWORD" \
             docker://ghcr.io/sirf-project/releases/stable:${{ matrix.variant }} \
             docker://quay.io/sirf-project/releases/stable:${{ matrix.variant }}
+
+          # Get the digest of the mirrored image
+          DIGEST=$(skopeo inspect docker://quay.io/sirf-project/releases/stable:${{ matrix.variant }} | jq -r '.Digest')
+          echo "digest=${DIGEST}" >> $GITHUB_OUTPUT
+          echo "Mirror digest: ${DIGEST}"
       - name: Sign the Quay.io mirror
         run: |
+          # Sign using digest (immutable reference) to avoid tag mutation warning
           cosign sign --yes \
-            quay.io/sirf-project/releases/stable:${{ matrix.variant }}
+            quay.io/sirf-project/releases/stable@${{ steps.mirror.outputs.digest }}
 

@@ -1,0 +1,155 @@
+---
+name: Update ubuntu.json with Image Digests
+
+on:
+  # Trigger after any workflow completes successfully
+  workflow_run:
+    workflows:
+      - "Release APT - Core24, LTS, and Stable Images"
+      - "Publish LTS Variants"
+      - "Publish Stable Variants"
+      - "Publish Core24 Variants"
+    types:
+      - completed
+    branches:
+      - main
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: read
+
+jobs:
+  update-digests:
+    runs-on: ubuntu-24.04
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to Quay.io
+        uses: docker/login-action@v3
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+      
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies for script
+        run: pip install loguru
+
+      - name: Fetch image digests and update ubuntu.json
+        run: |
+          python3 << 'EOF'
+          import json
+          import subprocess
+          from datetime import datetime, timezone
+          from loguru import logger
+
+          def get_image_digest(image_ref):
+              """Get digest for an image reference."""
+              try:
+                  result = subprocess.run(
+                      ["docker", "buildx", "imagetools", "inspect", image_ref, "--format", "{{.Manifest.Digest}}"],
+                      capture_output=True,
+                      text=True,
+                      check=True,
+                      timeout=30
+                  )
+                  digest = result.stdout.strip()
+                  logger.info(f"{image_ref} -> {digest}")
+                  return digest
+              except Exception as e:
+                  logger.warning(f"Could not get digest for {image_ref}: {e}")
+                  return None
+
+          # Load current ubuntu.json
+          with open('ubuntu.json', 'r') as f:
+              data = json.load(f)
+
+          logger.debug("Fetching image digests from registries...\n")
+
+          # Update digests for all channels and variants
+          for channel in ['lts', 'stable', 'core24']:
+              if channel not in data:
+                  continue
+
+              logger.info(f"Channel: {channel}")
+
+              for variant in ['apt', 'snap', 'flatpak', 'all']:
+                  if variant not in data[channel]['image']:
+                      continue
+
+                  logger.info(f" Variant: {variant}")
+
+                  # Get GitHub digest
+                  github_ref = data[channel]['image'][variant].get('github', '')
+                  if github_ref:
+                      github_digest = get_image_digest(github_ref)
+                      if github_digest:
+                          # Convert tag reference to digest reference
+                          github_digest_ref = github_ref.split(':')[0] + '@' + github_digest
+                          data[channel]['image'][variant]['github_digest'] = github_digest_ref
+
+                  # Get Quay digest
+                  quay_ref = data[channel]['image'][variant].get('quay', '')
+                  if quay_ref:
+                      quay_digest = get_image_digest(quay_ref)
+                      if quay_digest:
+                          # Convert tag reference to digest reference
+                          quay_digest_ref = quay_ref.split(':')[0] + '@' + quay_digest
+                          data[channel]['image'][variant]['quay_digest'] = quay_digest_ref
+
+                  # Add last updated timestamp
+                  data[channel]['image'][variant]['last_updated'] = datetime.now(timezone.utc).isoformat()
+
+          # Write updated ubuntu.json
+          try:
+            with open('ubuntu.json', 'w') as f:
+                logger.debug("Updating ubuntu.json with new digests")
+                json.dump(data, f, indent=4)
+                f.write('\n')  # Add trailing newline
+            logger.success("ubuntu.json updated")
+          except Exception as e:
+              logger.error(f"Failed to write ubuntu.json: {e}")
+              sys.exit(1)
+          EOF
+
+      - name: Check for changes
+        id: check
+        run: |
+          if git diff --quiet ubuntu.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes to ubuntu.json"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Changes detected in ubuntu.json"
+          fi
+
+      - name: Commit and push changes
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add ubuntu.json
+          git commit -m "chore: update image digests in ubuntu.json"
+          git push
