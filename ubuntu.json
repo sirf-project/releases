@@ -7,19 +7,19 @@
         "image": {
             "apt": {
                 "primary": "ghcr.io/sirf-project/releases/lts:apt",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/lts:apt"
             },
             "snap": {
                 "primary": "ghcr.io/sirf-project/releases/lts:snap",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/lts:snap"
             },
             "flatpak": {
                 "primary": "ghcr.io/sirf-project/releases/lts:flatpak",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/lts:flatpak"
             },
             "all": {
                 "primary": "ghcr.io/sirf-project/releases/lts:all",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/lts:all"
             }
         }
     },
@@ -31,19 +31,19 @@
         "image": {
             "apt": {
                 "primary": "ghcr.io/sirf-project/releases/stable:apt",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/stable:apt"
             },
             "snap": {
                 "primary": "ghcr.io/sirf-project/releases/stable:snap",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/stable:snap"
             },
             "flatpak": {
                 "primary": "ghcr.io/sirf-project/releases/stable:flatpak",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/stable:flatpak"
             },
             "all": {
                 "primary": "ghcr.io/sirf-project/releases/stable:all",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/stable:all"
             }
         }
     },
@@ -55,19 +55,19 @@
         "image": {
             "apt": {
                 "primary": "ghcr.io/sirf-project/releases/core24:apt",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/core24:apt"
             },
             "snap": {
                 "primary": "ghcr.io/sirf-project/releases/core24:snap",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/core24:snap"
             },
             "flatpak": {
                 "primary": "ghcr.io/sirf-project/releases/core24:flatpak",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/core24:flatpak"
             },
             "all": {
                 "primary": "ghcr.io/sirf-project/releases/core24:all",
-                "secondary": null
+                "secondary": "quay.io/sirf-project/releases/core24:all"
             }
         }
     }
