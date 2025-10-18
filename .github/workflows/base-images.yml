@@ -1,5 +1,5 @@
 ---
-  name: Release Stable Images
+  name: Release APT - Core24, LTS, and Stable Images
   on:
     schedule:
       - cron: '0 0 * * 0'  # Weekly on Sundays at midnight
@@ -39,7 +39,7 @@
             cache-to: type=gha
             pull: true
             push: true
-            tags: ghcr.io/${{ github.repository }}:${{ matrix.image }}-apt-${{ matrix.arch }}
+            tags: ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt-${{ matrix.arch }}
             provenance: false
             sbom: false
             cgroup-parent: system.slice
@@ -61,5 +61,5 @@
           run: |
             docker buildx imagetools create \
               --tag ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt \
-              ghcr.io/${{ github.repository }}:${{ matrix.image }}-apt-amd64 \
-              ghcr.io/${{ github.repository }}:${{ matrix.image }}-apt-arm64
+              ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt-amd64 \
+              ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt-arm64
