@@ -61,3 +61,22 @@ jobs:
             --tag ghcr.io/${{ github.repository }}/stable:${{ matrix.variant }} \
             ghcr.io/${{ github.repository }}/stable:${{ matrix.variant }}-amd64 \
             ghcr.io/${{ github.repository }}/stable:${{ matrix.variant }}-arm64
+
+  mirror-to-quay:
+    needs: release
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        variant: [all, snap, flatpak]
+    steps:
+      - name: Mirror multi-arch manifest to Quay.io
+        env:
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+        run: |
+          skopeo copy --all \
+            --src-creds "${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}" \
+            --dest-creds "$QUAY_USERNAME:$QUAY_PASSWORD" \
+            docker://ghcr.io/sirf-project/releases/stable:${{ matrix.variant }} \
+            docker://quay.io/sirf-project/releases/stable:${{ matrix.variant }}
+

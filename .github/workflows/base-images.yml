@@ -63,3 +63,21 @@
               --tag ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt \
               ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt-amd64 \
               ghcr.io/${{ github.repository }}/${{ matrix.image }}:apt-arm64
+
+    mirror-to-quay:
+      needs: release
+      runs-on: ubuntu-24.04
+      strategy:
+        matrix:
+          image: [stable, core24, lts]
+      steps:
+        - name: Mirror multi-arch manifest to Quay.io
+          env:
+            QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+            QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          run: |
+            skopeo copy --all \
+              --src-creds "${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}" \
+              --dest-creds "$QUAY_USERNAME:$QUAY_PASSWORD" \
+              docker://ghcr.io/sirf-project/releases/${{ matrix.image }}:apt \
+              docker://quay.io/sirf-project/releases/${{ matrix.image }}:apt
