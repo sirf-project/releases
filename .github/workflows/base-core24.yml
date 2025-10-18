@@ -28,7 +28,7 @@ jobs:
       - name: Build and push core24 ${{ matrix.variant }} ${{ matrix.arch }}
         uses: docker/build-push-action@v6
         with:
-          context: ./core24/${{ matrix.variant }}
+          context: .
           file: ./core24/${{ matrix.variant }}
           platforms: linux/${{ matrix.arch }}
           cache-from: type=gha

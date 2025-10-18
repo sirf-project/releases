@@ -30,7 +30,7 @@ jobs:
       - name: Build and push stable ${{ matrix.variant }} ${{ matrix.arch }}
         uses: docker/build-push-action@v6
         with:
-          context: ./stable/${{ matrix.variant }}
+          context: .
           file: ./stable/${{ matrix.variant }}
           platforms: linux/${{ matrix.arch }}
           cache-from: type=gha

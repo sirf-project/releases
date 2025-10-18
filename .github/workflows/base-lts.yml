@@ -30,7 +30,7 @@ jobs:
       - name: Build and push lts ${{ matrix.variant }} ${{ matrix.arch }}
         uses: docker/build-push-action@v6
         with:
-          context: ./lts/${{ matrix.variant }}
+          context: .
           file: ./lts/${{ matrix.variant }}
           platforms: linux/${{ matrix.arch }}
           cache-from: type=gha
