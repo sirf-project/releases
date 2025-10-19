@@ -1,5 +1,5 @@
 ---
-name: Update ubuntu.json with Image Digests
+name: Update with Image Digests
 
 on:
   # Trigger after any workflow completes successfully
@@ -16,6 +16,11 @@ on:
 
   # Allow manual trigger
   workflow_dispatch:
+
+# Prevent concurrent runs - queue new runs instead of running simultaneously
+concurrency:
+  group: update-digests
+  cancel-in-progress: false
 
 permissions:
   contents: write
