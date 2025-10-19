@@ -65,18 +65,26 @@ jobs:
           from loguru import logger
 
           def get_image_digest(image_ref):
-              """Get digest for an image reference."""
+              """Get digest for an image reference (multi-arch manifest digest)."""
               try:
+                  # Get full inspect output
                   result = subprocess.run(
-                      ["docker", "buildx", "imagetools", "inspect", image_ref, "--format", "{{.Manifest.Digest}}"],
+                      ["docker", "buildx", "imagetools", "inspect", image_ref],
                       capture_output=True,
                       text=True,
                       check=True,
                       timeout=30
                   )
-                  digest = result.stdout.strip()
-                  logger.info(f"{image_ref} -> {digest}")
-                  return digest
+
+                  # Extract the Digest line (multi-arch manifest digest)
+                  for line in result.stdout.splitlines():
+                      if line.startswith("Digest:"):
+                          digest = line.split()[1]  # Get the second column
+                          logger.info(f"{image_ref} -> {digest}")
+                          return digest
+
+                  logger.warning(f"No digest found in output for {image_ref}")
+                  return None
               except Exception as e:
                   logger.warning(f"Could not get digest for {image_ref}: {e}")
                   return None
