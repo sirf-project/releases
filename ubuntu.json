@@ -3,23 +3,38 @@
         "dist": "noble",
         "name": "Noble Numbat",
         "version": "24.04",
-        "architectures": ["amd64", "arm64"],
+        "architectures": [
+            "amd64",
+            "arm64"
+        ],
         "image": {
             "apt": {
                 "github": "ghcr.io/sirf-project/releases/lts:apt",
-                "quay": "quay.io/sirf-project/releases/lts:apt"
+                "quay": "quay.io/sirf-project/releases/lts:apt",
+                "github_digest": "ghcr.io/sirf-project/releases/lts@sha256:3f4e82167c547cf404ca55bcff1294ae566e03ba59def2ffe13192dd7998e94b",
+                "quay_digest": "quay.io/sirf-project/releases/lts@sha256:3f4e82167c547cf404ca55bcff1294ae566e03ba59def2ffe13192dd7998e94b",
+                "last_updated": "2025-10-19T00:05:31.585447+00:00"
             },
             "snap": {
                 "github": "ghcr.io/sirf-project/releases/lts:snap",
-                "quay": "quay.io/sirf-project/releases/lts:snap"
+                "quay": "quay.io/sirf-project/releases/lts:snap",
+                "github_digest": "ghcr.io/sirf-project/releases/lts@sha256:72edc4d5d06a00c596087a534aed4cb6e22b8def9723d6eef17d1994b1ef203f",
+                "quay_digest": "quay.io/sirf-project/releases/lts@sha256:72edc4d5d06a00c596087a534aed4cb6e22b8def9723d6eef17d1994b1ef203f",
+                "last_updated": "2025-10-19T00:05:32.001954+00:00"
             },
             "flatpak": {
                 "github": "ghcr.io/sirf-project/releases/lts:flatpak",
-                "quay": "quay.io/sirf-project/releases/lts:flatpak"
+                "quay": "quay.io/sirf-project/releases/lts:flatpak",
+                "github_digest": "ghcr.io/sirf-project/releases/lts@sha256:4a7a5ac66aaca07f40d3cbbc460dd9354ec666e67e72070696b78d90ecbef212",
+                "quay_digest": "quay.io/sirf-project/releases/lts@sha256:4a7a5ac66aaca07f40d3cbbc460dd9354ec666e67e72070696b78d90ecbef212",
+                "last_updated": "2025-10-19T00:05:32.515968+00:00"
             },
             "all": {
                 "github": "ghcr.io/sirf-project/releases/lts:all",
-                "quay": "quay.io/sirf-project/releases/lts:all"
+                "quay": "quay.io/sirf-project/releases/lts:all",
+                "github_digest": "ghcr.io/sirf-project/releases/lts@sha256:0ec8d5376d779c47621e9f7f1f0e63b6181bfe8aa8b236732bf52fdb5eb2a1d3",
+                "quay_digest": "quay.io/sirf-project/releases/lts@sha256:0ec8d5376d779c47621e9f7f1f0e63b6181bfe8aa8b236732bf52fdb5eb2a1d3",
+                "last_updated": "2025-10-19T00:05:32.947271+00:00"
             }
         }
     },
@@ -27,23 +42,38 @@
         "dist": "questing",
         "name": "Questing Quokka",
         "version": "25.10",
-        "architectures": ["amd64", "arm64"],
+        "architectures": [
+            "amd64",
+            "arm64"
+        ],
         "image": {
             "apt": {
                 "github": "ghcr.io/sirf-project/releases/stable:apt",
-                "quay": "quay.io/sirf-project/releases/stable:apt"
+                "quay": "quay.io/sirf-project/releases/stable:apt",
+                "github_digest": "ghcr.io/sirf-project/releases/stable@sha256:4ee69cc88e02b0019981d11f452869099024271a3117d40d6ce62e020f823247",
+                "quay_digest": "quay.io/sirf-project/releases/stable@sha256:4ee69cc88e02b0019981d11f452869099024271a3117d40d6ce62e020f823247",
+                "last_updated": "2025-10-19T00:05:33.418994+00:00"
             },
             "snap": {
                 "github": "ghcr.io/sirf-project/releases/stable:snap",
-                "quay": "quay.io/sirf-project/releases/stable:snap"
+                "quay": "quay.io/sirf-project/releases/stable:snap",
+                "github_digest": "ghcr.io/sirf-project/releases/stable@sha256:75c10963e5a82b4fc990ca5b885fa5fc85e5fbd186625212262c8f9a09151113",
+                "quay_digest": "quay.io/sirf-project/releases/stable@sha256:512c14b07890be611db0f18f641359537c98bca561a227b3e5863e394e80415b",
+                "last_updated": "2025-10-19T00:05:33.890910+00:00"
             },
             "flatpak": {
                 "github": "ghcr.io/sirf-project/releases/stable:flatpak",
-                "quay": "quay.io/sirf-project/releases/stable:flatpak"
+                "quay": "quay.io/sirf-project/releases/stable:flatpak",
+                "github_digest": "ghcr.io/sirf-project/releases/stable@sha256:3b3883252dadd92c73949c5157565bc2765396ed71841e800977a27b70874ed2",
+                "quay_digest": "quay.io/sirf-project/releases/stable@sha256:4c2d9cd588e3669c445b8ac700f619db277b1ea82beaa96d6d274dfd6430b9b0",
+                "last_updated": "2025-10-19T00:05:34.488057+00:00"
             },
             "all": {
                 "github": "ghcr.io/sirf-project/releases/stable:all",
-                "quay": "quay.io/sirf-project/releases/stable:all"
+                "quay": "quay.io/sirf-project/releases/stable:all",
+                "github_digest": "ghcr.io/sirf-project/releases/stable@sha256:8039d49765deca19843123c0277c039d6a594bee5fcc53aabfa95f7f6ca2a074",
+                "quay_digest": "quay.io/sirf-project/releases/stable@sha256:cc398497a33fe50c20ffe1b2728b76b30d3696cc09fda389399c048a6dba7c2b",
+                "last_updated": "2025-10-19T00:05:34.978542+00:00"
             }
         }
     },
@@ -51,23 +81,38 @@
         "dist": "noble",
         "name": "Noble Numbat",
         "version": "24.04",
-        "architectures": ["amd64", "arm64"],
+        "architectures": [
+            "amd64",
+            "arm64"
+        ],
         "image": {
             "apt": {
                 "github": "ghcr.io/sirf-project/releases/core24:apt",
-                "quay": "quay.io/sirf-project/releases/core24:apt"
+                "quay": "quay.io/sirf-project/releases/core24:apt",
+                "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:e2f582498cc015fd5955ab6c10e4d0f79ff51d4645241c296073a6899f5df57f",
+                "quay_digest": "quay.io/sirf-project/releases/core24@sha256:e2f582498cc015fd5955ab6c10e4d0f79ff51d4645241c296073a6899f5df57f",
+                "last_updated": "2025-10-19T00:05:35.608080+00:00"
             },
             "snap": {
                 "github": "ghcr.io/sirf-project/releases/core24:snap",
-                "quay": "quay.io/sirf-project/releases/core24:snap"
+                "quay": "quay.io/sirf-project/releases/core24:snap",
+                "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:031d037a2bad8b37d005e196bb179252ef75d6e4cbc471e76f5d2cdc23b245e5",
+                "quay_digest": "quay.io/sirf-project/releases/core24@sha256:031d037a2bad8b37d005e196bb179252ef75d6e4cbc471e76f5d2cdc23b245e5",
+                "last_updated": "2025-10-19T00:05:36.362533+00:00"
             },
             "flatpak": {
                 "github": "ghcr.io/sirf-project/releases/core24:flatpak",
-                "quay": "quay.io/sirf-project/releases/core24:flatpak"
+                "quay": "quay.io/sirf-project/releases/core24:flatpak",
+                "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:2055e23322f1cc6a4abe2778f3b44ab88f80550c0ec59a4afea6d23b67a43794",
+                "quay_digest": "quay.io/sirf-project/releases/core24@sha256:2055e23322f1cc6a4abe2778f3b44ab88f80550c0ec59a4afea6d23b67a43794",
+                "last_updated": "2025-10-19T00:05:36.994968+00:00"
             },
             "all": {
                 "github": "ghcr.io/sirf-project/releases/core24:all",
-                "quay": "quay.io/sirf-project/releases/core24:all"
+                "quay": "quay.io/sirf-project/releases/core24:all",
+                "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:678df276958eafb046f4538e6ce9fa3186fa7d8b1e59e20c2b4d2733b0672f8b",
+                "quay_digest": "quay.io/sirf-project/releases/core24@sha256:678df276958eafb046f4538e6ce9fa3186fa7d8b1e59e20c2b4d2733b0672f8b",
+                "last_updated": "2025-10-19T00:05:37.439367+00:00"
             }
         }
     }
