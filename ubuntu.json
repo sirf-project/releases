@@ -13,28 +13,28 @@
                 "quay": "quay.io/sirf-project/releases/lts:apt",
                 "github_digest": "ghcr.io/sirf-project/releases/lts@sha256:907ca21b3cb89354b2c2c1b848ad168d64a67a5cd2bcf86a4c065f0528627a95",
                 "quay_digest": "quay.io/sirf-project/releases/lts@sha256:907ca21b3cb89354b2c2c1b848ad168d64a67a5cd2bcf86a4c065f0528627a95",
-                "last_updated": "2025-10-25T03:04:16.725765+00:00"
+                "last_updated": "2025-10-25T03:07:56.914939+00:00"
             },
             "snap": {
                 "github": "ghcr.io/sirf-project/releases/lts:snap",
                 "quay": "quay.io/sirf-project/releases/lts:snap",
                 "github_digest": "ghcr.io/sirf-project/releases/lts@sha256:7a84f7239ce6405ef7aaf8190f2502b95b7a0b25801f94796ff53e2a04491a21",
                 "quay_digest": "quay.io/sirf-project/releases/lts@sha256:7a84f7239ce6405ef7aaf8190f2502b95b7a0b25801f94796ff53e2a04491a21",
-                "last_updated": "2025-10-25T03:04:17.247229+00:00"
+                "last_updated": "2025-10-25T03:07:57.410359+00:00"
             },
             "flatpak": {
                 "github": "ghcr.io/sirf-project/releases/lts:flatpak",
                 "quay": "quay.io/sirf-project/releases/lts:flatpak",
                 "github_digest": "ghcr.io/sirf-project/releases/lts@sha256:f472c82e5df8c321d7dc9a74d11e7602a4665b120c00a257829f3096ce34fd40",
                 "quay_digest": "quay.io/sirf-project/releases/lts@sha256:f472c82e5df8c321d7dc9a74d11e7602a4665b120c00a257829f3096ce34fd40",
-                "last_updated": "2025-10-25T03:04:17.734022+00:00"
+                "last_updated": "2025-10-25T03:07:58.049071+00:00"
             },
             "all": {
                 "github": "ghcr.io/sirf-project/releases/lts:all",
                 "quay": "quay.io/sirf-project/releases/lts:all",
                 "github_digest": "ghcr.io/sirf-project/releases/lts@sha256:ad82ec16630fb4fdf9b33362f28b79ccfb685e5ffb82c2fb6fffcaa0ee5a9607",
                 "quay_digest": "quay.io/sirf-project/releases/lts@sha256:ad82ec16630fb4fdf9b33362f28b79ccfb685e5ffb82c2fb6fffcaa0ee5a9607",
-                "last_updated": "2025-10-25T03:04:18.317737+00:00"
+                "last_updated": "2025-10-25T03:07:58.662257+00:00"
             }
         }
     },
@@ -52,28 +52,28 @@
                 "quay": "quay.io/sirf-project/releases/stable:apt",
                 "github_digest": "ghcr.io/sirf-project/releases/stable@sha256:150777e0d2b14da24ce14b61292675090c9880cc9164cff603670c14a614d291",
                 "quay_digest": "quay.io/sirf-project/releases/stable@sha256:150777e0d2b14da24ce14b61292675090c9880cc9164cff603670c14a614d291",
-                "last_updated": "2025-10-25T03:04:19.262647+00:00"
+                "last_updated": "2025-10-25T03:07:59.173168+00:00"
             },
             "snap": {
                 "github": "ghcr.io/sirf-project/releases/stable:snap",
                 "quay": "quay.io/sirf-project/releases/stable:snap",
                 "github_digest": "ghcr.io/sirf-project/releases/stable@sha256:d348f19e276a1a0daac233ff581ad33c4fef34b4ff697dd8128ce32d44a1790a",
                 "quay_digest": "quay.io/sirf-project/releases/stable@sha256:d348f19e276a1a0daac233ff581ad33c4fef34b4ff697dd8128ce32d44a1790a",
-                "last_updated": "2025-10-25T03:04:19.720543+00:00"
+                "last_updated": "2025-10-25T03:07:59.854730+00:00"
             },
             "flatpak": {
                 "github": "ghcr.io/sirf-project/releases/stable:flatpak",
                 "quay": "quay.io/sirf-project/releases/stable:flatpak",
                 "github_digest": "ghcr.io/sirf-project/releases/stable@sha256:c4538de4027975e7d555d132be2a0711219df9899a2083cdd7bc032f2ae89f4a",
                 "quay_digest": "quay.io/sirf-project/releases/stable@sha256:c4538de4027975e7d555d132be2a0711219df9899a2083cdd7bc032f2ae89f4a",
-                "last_updated": "2025-10-25T03:04:20.203807+00:00"
+                "last_updated": "2025-10-25T03:08:00.390721+00:00"
             },
             "all": {
                 "github": "ghcr.io/sirf-project/releases/stable:all",
                 "quay": "quay.io/sirf-project/releases/stable:all",
                 "github_digest": "ghcr.io/sirf-project/releases/stable@sha256:c84cd426b2ec11feedc3c4a29cdc8f7c9f6a1febfad94db1e50174f9fc386124",
                 "quay_digest": "quay.io/sirf-project/releases/stable@sha256:c84cd426b2ec11feedc3c4a29cdc8f7c9f6a1febfad94db1e50174f9fc386124",
-                "last_updated": "2025-10-25T03:04:20.747388+00:00"
+                "last_updated": "2025-10-25T03:08:01.110271+00:00"
             }
         }
     },
@@ -91,28 +91,28 @@
                 "quay": "quay.io/sirf-project/releases/core24:apt",
                 "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:b55410374b2c7e1d1bd91060054d848404e9e74728053530905d41b95e19e62d",
                 "quay_digest": "quay.io/sirf-project/releases/core24@sha256:b55410374b2c7e1d1bd91060054d848404e9e74728053530905d41b95e19e62d",
-                "last_updated": "2025-10-25T03:04:21.408861+00:00"
+                "last_updated": "2025-10-25T03:08:01.614995+00:00"
             },
             "snap": {
                 "github": "ghcr.io/sirf-project/releases/core24:snap",
                 "quay": "quay.io/sirf-project/releases/core24:snap",
-                "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:2320273754d06bcab3f4e3593f055700aa6a92c0c7f86f0bd4d1e3574006d664",
-                "quay_digest": "quay.io/sirf-project/releases/core24@sha256:2320273754d06bcab3f4e3593f055700aa6a92c0c7f86f0bd4d1e3574006d664",
-                "last_updated": "2025-10-25T03:04:22.051821+00:00"
+                "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:ae05d6d75036250c429e667879918eed9a501ccf7dc6d6e5c29fe8cbf78b96a5",
+                "quay_digest": "quay.io/sirf-project/releases/core24@sha256:ae05d6d75036250c429e667879918eed9a501ccf7dc6d6e5c29fe8cbf78b96a5",
+                "last_updated": "2025-10-25T03:08:02.072897+00:00"
             },
             "flatpak": {
                 "github": "ghcr.io/sirf-project/releases/core24:flatpak",
                 "quay": "quay.io/sirf-project/releases/core24:flatpak",
-                "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:fd6f25b4f6b4c8fccc9e747576f9a43e1fee0d878c7d912f2fc99bd100d57739",
-                "quay_digest": "quay.io/sirf-project/releases/core24@sha256:fd6f25b4f6b4c8fccc9e747576f9a43e1fee0d878c7d912f2fc99bd100d57739",
-                "last_updated": "2025-10-25T03:04:22.673163+00:00"
+                "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:2d427aebde2beda2e0c4804f50e3d76ef61d1c907441768b03a0825f20414d6e",
+                "quay_digest": "quay.io/sirf-project/releases/core24@sha256:2d427aebde2beda2e0c4804f50e3d76ef61d1c907441768b03a0825f20414d6e",
+                "last_updated": "2025-10-25T03:08:02.579919+00:00"
             },
             "all": {
                 "github": "ghcr.io/sirf-project/releases/core24:all",
                 "quay": "quay.io/sirf-project/releases/core24:all",
-                "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:40408eecfde859988a60b157ec35c2e09e5e5d9fb813f02c928e8c3ad452b5a3",
-                "quay_digest": "quay.io/sirf-project/releases/core24@sha256:40408eecfde859988a60b157ec35c2e09e5e5d9fb813f02c928e8c3ad452b5a3",
-                "last_updated": "2025-10-25T03:04:23.211455+00:00"
+                "github_digest": "ghcr.io/sirf-project/releases/core24@sha256:4ee4e3899b04eca87f045409af89ed1ecfa04ea08526502cae2491dd942744e9",
+                "quay_digest": "quay.io/sirf-project/releases/core24@sha256:4ee4e3899b04eca87f045409af89ed1ecfa04ea08526502cae2491dd942744e9",
+                "last_updated": "2025-10-25T03:08:03.061260+00:00"
             }
         }
     }
