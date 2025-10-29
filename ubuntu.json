@@ -1,0 +1,83 @@
+{
+    "lts": {
+        "dist": "noble",
+        "name": "Noble Numbat",
+        "version": "24.04",
+        "architectures": [
+            "amd64",
+            "arm64"
+        ],
+        "image": {
+            "apt": {
+                "github": "ghcr.io/sirf-project/releases/lts:apt",
+                "quay": "quay.io/sirf-project/releases/lts:apt"
+            },
+            "snap": {
+                "github": "ghcr.io/sirf-project/releases/lts:snap",
+                "quay": "quay.io/sirf-project/releases/lts:snap"
+            },
+            "flatpak": {
+                "github": "ghcr.io/sirf-project/releases/lts:flatpak",
+                "quay": "quay.io/sirf-project/releases/lts:flatpak"
+            },
+            "all": {
+                "github": "ghcr.io/sirf-project/releases/lts:all",
+                "quay": "quay.io/sirf-project/releases/lts:all"
+            }
+        }
+    },
+    "stable": {
+        "dist": "questing",
+        "name": "Questing Quokka",
+        "version": "25.10",
+        "architectures": [
+            "amd64",
+            "arm64"
+        ],
+        "image": {
+            "apt": {
+                "github": "ghcr.io/sirf-project/releases/stable:apt",
+                "quay": "quay.io/sirf-project/releases/stable:apt"
+            },
+            "snap": {
+                "github": "ghcr.io/sirf-project/releases/stable:snap",
+                "quay": "quay.io/sirf-project/releases/stable:snap"
+            },
+            "flatpak": {
+                "github": "ghcr.io/sirf-project/releases/stable:flatpak",
+                "quay": "quay.io/sirf-project/releases/stable:flatpak"
+            },
+             "all": {
+                "github": "ghcr.io/sirf-project/releases/stable:all",
+                "quay": "quay.io/sirf-project/releases/stable:all"
+            }
+        }
+    },
+    "core24": {
+        "dist": "noble",
+        "name": "Noble Numbat",
+        "version": "24.04",
+        "architectures": [
+            "amd64",
+            "arm64"
+        ],
+        "image": {
+            "apt": {
+                "github": "ghcr.io/sirf-project/releases/core24:apt",
+                "quay": "quay.io/sirf-project/releases/core24:apt"
+            },
+            "snap": {
+                "github": "ghcr.io/sirf-project/releases/core24:snap",
+                "quay": "quay.io/sirf-project/releases/core24:snap"
+            },
+            "flatpak": {
+                "github": "ghcr.io/sirf-project/releases/core24:flatpak",
+                "quay": "quay.io/sirf-project/releases/core24:flatpak"
+            },
+            "all": {
+                "github": "ghcr.io/sirf-project/releases/core24:all",
+                "quay": "quay.io/sirf-project/releases/core24:all"
+            }
+        }
+    }
+}
