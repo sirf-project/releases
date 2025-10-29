@@ -1,5 +1,7 @@
 target "default" {
     name = "${base}-${variant}"
+    description = "Build Sirf Project base image for Ubuntu ${base} with ${variant} variant"
+    pull = true
     matrix = {
         base = ["core24", "lts", "stable"]
         variant = ["all", "apt", "flatpak", "snap"]
@@ -25,6 +27,20 @@ target "default" {
 
     cache-to = ["type=gha,mode=max,scope=${base}-${variant}"]
     cache-from = ["type=gha,scope=${base}-${variant}"]
+
+    annotations = [
+        "org.opencontainers.image.title=Sirf Base Image: ${base} - ${variant}",
+        "org.opencontainers.image.description=Base Ubuntu image for Sirf Project with ${variant} variant",
+        "org.opencontainers.image.version=${base}",
+        "org.opencontainers.image.url=https://github.com/sirf-project/releases",
+        "org.opencontainers.image.source=https://github.com/sirf-project/releases",
+        "org.opencontainers.image.documentation=https://github.com/sirf-project/releases#readme",
+        "org.opencontainers.image.licenses=GPL-3.0-or-later",
+        "org.opencontainers.image.created=${timestamp()}",
+        "org.opencontainers.image.authors=Sirf Project Contributors",
+        "org.opencontainers.image.vendor=Sirf Project",
+        "org.opencontainers.image.base.name=docker.io/library/ubuntu:${tag(base)}"
+    ]
 
     labels = {
         "org.opencontainers.image.title" = "Sirf Base Image: ${base} - ${variant}"
