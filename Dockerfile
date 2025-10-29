@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.14
-FROM ubuntu-base AS init-stage
+FROM ubuntu-base AS base
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
@@ -34,14 +34,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     deluser --remove-home ubuntu
 EOT
 
-FROM scratch AS interim-stage
+FROM scratch AS apt
 
 ENTRYPOINT ["/sbin/init" ]
-COPY --link --from=init-stage / /
+COPY --link --from=base / /
 
-FROM interim-stage AS apt
-
-FROM interim-stage AS flatpak
+FROM apt AS flatpak
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
@@ -53,7 +51,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 EOT
 
-FROM interim-stage AS snap
+FROM apt AS snap
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
@@ -64,7 +62,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
 EOT
 
-FROM interim-stage AS all
+FROM apt AS all
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
