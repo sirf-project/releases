@@ -13,24 +13,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Build multi-arch images using bake with QEMU
-  build:
-    strategy:
-      matrix:
-        target:
-          - core24-all
-          - core24-apt
-          - core24-flatpak
-          - core24-snap
-          - lts-all
-          - lts-apt
-          - lts-flatpak
-          - lts-snap
-          - stable-all
-          - stable-apt
-          - stable-flatpak
-          - stable-snap
+  prepare:
     runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.generate.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Generate matrix
+        id: generate
+        uses: docker/bake-action/subaction/matrix@v6
+        with:
+          files: docker-bake.hcl
+
+  build:
+    runs-on: ubuntu-24.04
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.prepare.outputs.matrix) }}
+
     permissions:
       contents: read
       id-token: write
@@ -57,8 +60,9 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Build and push ${{ matrix.target }} (multi-arch)
-        uses: docker/bake-action@v5
+        uses: docker/bake-action@v6
         with:
+          source: .
           files: docker-bake.hcl
           targets: ${{ matrix.target }}
           push: true
