@@ -1,9 +1,13 @@
 # syntax=docker/dockerfile:1.14
 FROM ubuntu-base AS init-stage
 
-RUN <<-EOT
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    --mount=type=tmpfs,target=/var/log \
+<<-EOT
     apt-get update
     apt-get install --no-install-recommends -y debconf-utils perl
+    rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
 EOT
 
 RUN <<-EOT
@@ -20,7 +24,11 @@ RUN <<-EOT
     echo "console-setup console-setup/store_defaults_in_debconf_db boolean true" | debconf-set-selections
 EOT
 
-RUN <<-EOT
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    --mount=type=tmpfs,target=/var/log \
+<<-EOT
+    apt-get update
     apt-get install -y ubuntu-minimal
     rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
     deluser --remove-home ubuntu
@@ -35,7 +43,10 @@ FROM interim-stage AS apt
 
 FROM interim-stage AS flatpak
 
-RUN <<-EOT
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    --mount=type=tmpfs,target=/var/log \
+<<-EOT
     apt-get update
     apt-get install -y flatpak
     rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
@@ -44,7 +55,10 @@ EOT
 
 FROM interim-stage AS snap
 
-RUN <<-EOT
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    --mount=type=tmpfs,target=/var/log \
+<<-EOT
     apt-get update
     apt-get install -y snapd xdelta3
     rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
@@ -52,7 +66,10 @@ EOT
 
 FROM interim-stage AS all
 
-RUN <<-EOT
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    --mount=type=tmpfs,target=/var/log \
+<<-EOT
     apt-get update
     apt-get install -y snapd xdelta3 flatpak
     rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
