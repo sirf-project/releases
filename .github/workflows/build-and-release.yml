@@ -65,7 +65,6 @@ jobs:
           source: .
           files: docker-bake.hcl
           targets: ${{ matrix.target }}
-          push: true
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3

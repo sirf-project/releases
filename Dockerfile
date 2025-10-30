@@ -6,7 +6,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=tmpfs,target=/var/log \
 <<-EOF
     apt-get update
+    apt-get dist-upgrade -y
     apt-get install --no-install-recommends -y debconf-utils perl
+    rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
 EOF
 
 RUN <<-EOF

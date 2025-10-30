@@ -25,8 +25,14 @@ target "default" {
         "quay.io/sirf-project/releases/${base}:${variant}"
     ]
 
-    cache-to = ["type=gha,mode=max,scope=${base}-${variant}"]
-    cache-from = ["type=gha,scope=${base}-${variant}"]
+    output = ["type=image,push=true,compression=zstd,compression-level=3,oci-mediatypes=true"]
+
+    cache-to = [
+        "type=registry,ref=ghcr.io/sirf-project/releases/cache:${base}-${variant},mode=max,compression=zstd,compression-level=3,oci-mediatypes=true"
+    ]
+    cache-from = [
+        "type=registry,ref=ghcr.io/sirf-project/releases/cache:${base}-${variant}"
+    ]
 
     annotations = [
         "org.opencontainers.image.title=Sirf Base Image: ${base} - ${variant}",
