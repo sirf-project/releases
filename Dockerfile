@@ -32,7 +32,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=tmpfs,target=/var/log \
 <<-EOF
     apt-get update
-    apt-get install -y ubuntu-minimal
+    apt-get install -y ubuntu-minimal ubuntu-standard grub-efi plymouth-theme-spinner linux-headers-generic linux-image-generic
     rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
     deluser --remove-home ubuntu
 EOF
