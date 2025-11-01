@@ -69,23 +69,13 @@ jobs:
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3
 
-      - name: Extract base and variant from target
-        id: parse
-        run: |
-          TARGET="${{ matrix.target }}"
-          BASE="${TARGET%-*}"
-          VARIANT="${TARGET##*-}"
-          echo "base=${BASE}" >> $GITHUB_OUTPUT
-          echo "variant=${VARIANT}" >> $GITHUB_OUTPUT
-
       - name: Get digests and sign images
         env:
-          BASE: ${{ steps.parse.outputs.base }}
-          VARIANT: ${{ steps.parse.outputs.variant }}
+          BASE: ${{ matrix.target }}
         run: |
           # Get digests
-          GHCR_DIGEST=$(docker buildx imagetools inspect ghcr.io/sirf-project/releases/${BASE}:${VARIANT} | grep "^Digest:" | awk '{print $2}')
-          QUAY_DIGEST=$(docker buildx imagetools inspect quay.io/sirf-project/releases/${BASE}:${VARIANT} | grep "^Digest:" | awk '{print $2}')
+          GHCR_DIGEST=$(docker buildx imagetools inspect ghcr.io/sirf-project/releases/${BASE} | grep "^Digest:" | awk '{print $2}')
+          QUAY_DIGEST=$(docker buildx imagetools inspect quay.io/sirf-project/releases/${BASE} | grep "^Digest:" | awk '{print $2}')
 
           echo "✓ GHCR digest: ${GHCR_DIGEST}"
           echo "✓ Quay digest: ${QUAY_DIGEST}"
@@ -94,10 +84,10 @@ jobs:
           echo "Signing images..."
           cosign sign --yes ghcr.io/sirf-project/releases/${BASE}@${GHCR_DIGEST}
           cosign sign --yes quay.io/sirf-project/releases/${BASE}@${QUAY_DIGEST}
-          echo "✓ ${BASE}:${VARIANT} signed"
+          echo "✓ ${BASE} signed"
 
           # Save digest info for later
-          echo "${BASE}:${VARIANT}=${GHCR_DIGEST},${QUAY_DIGEST}" >> /tmp/digest-${{ matrix.target }}.txt
+          echo "${BASE}=${GHCR_DIGEST},${QUAY_DIGEST}" >> /tmp/digest-${{ matrix.target }}.txt
 
       - name: Upload digest artifact
         uses: actions/upload-artifact@v4
@@ -143,21 +133,20 @@ jobs:
                   if not line:
                       continue
 
-                  # Parse: base:variant=ghcr_digest,quay_digest
-                  target, digests = line.split('=')
-                  base, variant = target.split(':')
+                  # Parse: base=ghcr_digest,quay_digest
+                  base, digests = line.split('=')
                   ghcr_digest, quay_digest = digests.split(',')
 
                   # Add digest fields dynamically
-                  if base in config and variant in config[base]['image']:
+                  if base in config:
                       timestamp = datetime.now(timezone.utc).isoformat()
-                      config[base]['image'][variant]['github_digest'] = f"ghcr.io/sirf-project/releases/{base}@{ghcr_digest}"
-                      config[base]['image'][variant]['quay_digest'] = f"quay.io/sirf-project/releases/{base}@{quay_digest}"
-                      config[base]['image'][variant]['last_updated'] = timestamp
+                      config[base]['github_digest'] = f"ghcr.io/sirf-project/releases/{base}@{ghcr_digest}"
+                      config[base]['quay_digest'] = f"quay.io/sirf-project/releases/{base}@{quay_digest}"
+                      config[base]['last_updated'] = timestamp
                       updated_count += 1
-                      print(f"✓ Added digests for {base}:{variant}")
+                      print(f"✓ Added digests for {base}")
                   else:
-                      print(f"⚠ {base}:{variant} not found in ubuntu.json")
+                      print(f"⚠ {base} not found in ubuntu.json")
 
           # Write enriched config for release
           with open('ubuntu.json', 'w') as f:
@@ -178,7 +167,7 @@ jobs:
             Updated: ${{ github.event.head_commit.timestamp }}
             Workflow: ${{ github.run_id }}
 
-            This release contains the latest image digest references for all Ubuntu container variants.
+            This release contains the latest image digest references for all Ubuntu container images.
 
             ## Usage
 
@@ -187,13 +176,13 @@ jobs:
             curl -sL https://github.com/sirf-project/releases/releases/download/latest/ubuntu.json
             ```
 
-            ## Variants
+            ## Images
 
-            - **LTS**: Ubuntu 24.04 LTS (Noble Numbat)
-            - **Stable**: Ubuntu 25.10 (Questing Quokka)
-            - **Core24**: Ubuntu 24.04 Core
+            - **lts**: Ubuntu 24.04 LTS (Noble Numbat) - `ghcr.io/sirf-project/releases/lts`
+            - **stable**: Ubuntu 25.10 (Questing Quokka) - `ghcr.io/sirf-project/releases/stable`
+            - **core24**: Ubuntu 24.04 Core - `ghcr.io/sirf-project/releases/core24`
 
-            Each variant available with: `apt`, `snap`, `flatpak`, `all`
+            All images include: snapd, flatpak, and essential utilities
           files: ubuntu.json
           prerelease: false
           make_latest: true

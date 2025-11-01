@@ -7,24 +7,8 @@
             "amd64",
             "arm64"
         ],
-        "image": {
-            "apt": {
-                "github": "ghcr.io/sirf-project/releases/lts:apt",
-                "quay": "quay.io/sirf-project/releases/lts:apt"
-            },
-            "snap": {
-                "github": "ghcr.io/sirf-project/releases/lts:snap",
-                "quay": "quay.io/sirf-project/releases/lts:snap"
-            },
-            "flatpak": {
-                "github": "ghcr.io/sirf-project/releases/lts:flatpak",
-                "quay": "quay.io/sirf-project/releases/lts:flatpak"
-            },
-            "all": {
-                "github": "ghcr.io/sirf-project/releases/lts:all",
-                "quay": "quay.io/sirf-project/releases/lts:all"
-            }
-        }
+        "github": "ghcr.io/sirf-project/releases/lts",
+        "quay": "quay.io/sirf-project/releases/lts"
     },
     "stable": {
         "dist": "questing",
@@ -34,24 +18,8 @@
             "amd64",
             "arm64"
         ],
-        "image": {
-            "apt": {
-                "github": "ghcr.io/sirf-project/releases/stable:apt",
-                "quay": "quay.io/sirf-project/releases/stable:apt"
-            },
-            "snap": {
-                "github": "ghcr.io/sirf-project/releases/stable:snap",
-                "quay": "quay.io/sirf-project/releases/stable:snap"
-            },
-            "flatpak": {
-                "github": "ghcr.io/sirf-project/releases/stable:flatpak",
-                "quay": "quay.io/sirf-project/releases/stable:flatpak"
-            },
-             "all": {
-                "github": "ghcr.io/sirf-project/releases/stable:all",
-                "quay": "quay.io/sirf-project/releases/stable:all"
-            }
-        }
+        "github": "ghcr.io/sirf-project/releases/stable",
+        "quay": "quay.io/sirf-project/releases/stable"
     },
     "core24": {
         "dist": "noble",
@@ -61,23 +29,7 @@
             "amd64",
             "arm64"
         ],
-        "image": {
-            "apt": {
-                "github": "ghcr.io/sirf-project/releases/core24:apt",
-                "quay": "quay.io/sirf-project/releases/core24:apt"
-            },
-            "snap": {
-                "github": "ghcr.io/sirf-project/releases/core24:snap",
-                "quay": "quay.io/sirf-project/releases/core24:snap"
-            },
-            "flatpak": {
-                "github": "ghcr.io/sirf-project/releases/core24:flatpak",
-                "quay": "quay.io/sirf-project/releases/core24:flatpak"
-            },
-            "all": {
-                "github": "ghcr.io/sirf-project/releases/core24:all",
-                "quay": "quay.io/sirf-project/releases/core24:all"
-            }
-        }
+        "github": "ghcr.io/sirf-project/releases/core24",
+        "quay": "quay.io/sirf-project/releases/core24"
     }
 }

@@ -1,10 +1,9 @@
 target "default" {
-    name = "${base}-${variant}"
-    description = "Build Sirf Project base image for Ubuntu ${base} with ${variant} variant"
+    name = base
+    description = "Build Sirf Project base image for Ubuntu ${base}"
     pull = true
     matrix = {
         base = ["core24", "lts", "stable"]
-        variant = ["all", "apt", "flatpak", "snap"]
     }
     dockerfile = "Dockerfile"
 
@@ -18,29 +17,26 @@ target "default" {
     }
 
     platforms = ["linux/amd64", "linux/arm64"]
-    target = variant
 
     tags = [
-        "ghcr.io/sirf-project/releases/${base}:${variant}",
-        "quay.io/sirf-project/releases/${base}:${variant}"
+        "ghcr.io/sirf-project/releases/${base}",
+        "quay.io/sirf-project/releases/${base}"
     ]
 
     output = ["type=image,push=true,compression=zstd,compression-level=9,oci-mediatypes=true"]
 
     cache-to = [
-        "type=registry,ref=ghcr.io/sirf-project/releases/cache:${base}-${variant},mode=max,compression=zstd,compression-level=3,oci-mediatypes=true",
+        "type=registry,ref=ghcr.io/sirf-project/releases/${base}:buildcache,mode=max,compression=zstd,compression-level=5,oci-mediatypes=true",
         "type=inline"
     ]
     cache-from = [
-        "type=registry,ref=ghcr.io/sirf-project/releases/cache:${base}-${variant}",
-        "type=registry,ref=ghcr.io/sirf-project/releases/cache:${base}-apt",
-        "type=registry,ref=ghcr.io/sirf-project/releases/${base}:${variant}",
-        "type=registry,ref=ghcr.io/sirf-project/releases/${base}:apt"
+        "type=registry,ref=ghcr.io/sirf-project/releases/${base}:buildcache",
+        "type=registry,ref=ghcr.io/sirf-project/releases/${base}"
     ]
 
     annotations = [
-        "org.opencontainers.image.title=Sirf Base Image: ${base} - ${variant}",
-        "org.opencontainers.image.description=Base Ubuntu image for Sirf Project with ${variant} variant",
+        "org.opencontainers.image.title=Sirf Base Image: ${base}",
+        "org.opencontainers.image.description=Base Ubuntu image for Sirf Project",
         "org.opencontainers.image.version=${base}",
         "org.opencontainers.image.url=https://github.com/sirf-project/releases",
         "org.opencontainers.image.source=https://github.com/sirf-project/releases",
@@ -53,8 +49,8 @@ target "default" {
     ]
 
     labels = {
-        "org.opencontainers.image.title" = "Sirf Base Image: ${base} - ${variant}"
-        "org.opencontainers.image.description" = "Base Ubuntu image for Sirf Project with ${variant} variant."
+        "org.opencontainers.image.title" = "Sirf Base Image: ${base}"
+        "org.opencontainers.image.description" = "Base Ubuntu image for Sirf Project."
         "org.opencontainers.image.version" = "${base}"
         "org.opencontainers.image.url" = "https://github.com/sirf-project/releases"
         "org.opencontainers.image.source" = "https://github.com/sirf-project/releases"
