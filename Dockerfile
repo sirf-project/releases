@@ -8,7 +8,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update
     apt-get dist-upgrade -y
     apt-get install --no-install-recommends -y debconf-utils perl
-    rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
 EOF
 
 RUN <<-EOF
@@ -33,14 +32,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 <<-EOF
     apt-get update
     apt-get install -y ubuntu-minimal ubuntu-standard grub-efi plymouth-theme-spinner linux-headers-generic linux-image-generic
-    rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
     deluser --remove-home ubuntu
 EOF
 
 FROM scratch AS apt
 
 ENTRYPOINT ["/sbin/init"]
-COPY --link --from=base / /
+COPY --from=base / /
 
 FROM apt AS flatpak
 
@@ -50,7 +48,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 <<-EOF
     apt-get update
     apt-get install -y flatpak
-    rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 EOF
 
@@ -62,7 +59,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 <<-EOF
     apt-get update
     apt-get install -y snapd xdelta3
-    rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
 EOF
 
 FROM apt AS all
@@ -73,6 +69,5 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 <<-EOF
     apt-get update
     apt-get install -y snapd xdelta3 flatpak
-    rm -rf /var/lib/apt/lists/* /var/log/{alternatives.log,apt/{history.log,term.log},dpkg.log}
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 EOF

@@ -25,13 +25,17 @@ target "default" {
         "quay.io/sirf-project/releases/${base}:${variant}"
     ]
 
-    output = ["type=image,push=true,compression=zstd,compression-level=3,oci-mediatypes=true"]
+    output = ["type=image,push=true,compression=zstd,compression-level=9,oci-mediatypes=true"]
 
     cache-to = [
-        "type=registry,ref=ghcr.io/sirf-project/releases/cache:${base}-${variant},mode=max,compression=zstd,compression-level=3,oci-mediatypes=true"
+        "type=registry,ref=ghcr.io/sirf-project/releases/cache:${base}-${variant},mode=max,compression=zstd,compression-level=3,oci-mediatypes=true",
+        "type=inline"
     ]
     cache-from = [
-        "type=registry,ref=ghcr.io/sirf-project/releases/cache:${base}-${variant}"
+        "type=registry,ref=ghcr.io/sirf-project/releases/cache:${base}-${variant}",
+        "type=registry,ref=ghcr.io/sirf-project/releases/cache:${base}-apt",
+        "type=registry,ref=ghcr.io/sirf-project/releases/${base}:${variant}",
+        "type=registry,ref=ghcr.io/sirf-project/releases/${base}:apt"
     ]
 
     annotations = [
