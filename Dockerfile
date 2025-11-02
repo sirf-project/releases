@@ -19,5 +19,5 @@ EOF
 
 FROM scratch
 
-COPY --from=base / /
+COPY --link --from=base / /
 ENTRYPOINT ["/sbin/init"]

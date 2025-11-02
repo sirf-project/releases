@@ -23,10 +23,10 @@ target "default" {
         "quay.io/sirf-project/releases/${base}"
     ]
 
-    output = ["type=image,push=true,compression=zstd,compression-level=13,oci-mediatypes=true"]
+    output = ["type=image,push=true,compression=zstd,compression-level=13"]
 
     cache-to = [
-        "type=registry,ref=ghcr.io/sirf-project/releases/${base}:buildcache,mode=max,compression=zstd,compression-level=5,oci-mediatypes=true",
+        "type=registry,ref=ghcr.io/sirf-project/releases/${base}:buildcache,mode=max,compression=zstd,compression-level=5",
         "type=inline"
     ]
     cache-from = [
