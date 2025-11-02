@@ -8,7 +8,7 @@ target "default" {
     dockerfile = "Dockerfile"
 
     attest = [
-        "type=sbom",
+        "type=sbom,generator=docker/buildkit-syft-scanner",
         "type=provenance,mode=max"
     ]
 
@@ -23,7 +23,7 @@ target "default" {
         "quay.io/sirf-project/releases/${base}"
     ]
 
-    output = ["type=image,push=true,compression=zstd,compression-level=9,oci-mediatypes=true"]
+    output = ["type=image,push=true,compression=zstd,compression-level=13,oci-mediatypes=true"]
 
     cache-to = [
         "type=registry,ref=ghcr.io/sirf-project/releases/${base}:buildcache,mode=max,compression=zstd,compression-level=5,oci-mediatypes=true",
@@ -36,7 +36,7 @@ target "default" {
 
     annotations = [
         "org.opencontainers.image.title=Sirf Base Image: ${base}",
-        "org.opencontainers.image.description=Base Ubuntu image for Sirf Project",
+        "org.opencontainers.image.description=Base Ubuntu image for Sirf Project with snapd, flatpak, and essential utilities",
         "org.opencontainers.image.version=${base}",
         "org.opencontainers.image.url=https://github.com/sirf-project/releases",
         "org.opencontainers.image.source=https://github.com/sirf-project/releases",
@@ -50,7 +50,7 @@ target "default" {
 
     labels = {
         "org.opencontainers.image.title" = "Sirf Base Image: ${base}"
-        "org.opencontainers.image.description" = "Base Ubuntu image for Sirf Project."
+        "org.opencontainers.image.description" = "Base Ubuntu image for Sirf Project with snapd, flatpak, and essential utilities"
         "org.opencontainers.image.version" = "${base}"
         "org.opencontainers.image.url" = "https://github.com/sirf-project/releases"
         "org.opencontainers.image.source" = "https://github.com/sirf-project/releases"
@@ -65,6 +65,14 @@ target "default" {
 
 function "tag" {
     params = [base]
-    result = base == "core24" ? "24.04" : base == "lts" ? "latest" : base == "stable" ? "rolling" : "rolling"
+    result = lookup(
+        {
+            core24 = "24.04"
+            lts    = "latest"
+            stable = "rolling"
+        },
+        base,
+        "rolling"
+    )
 }
 
