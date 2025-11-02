@@ -1,12 +1,12 @@
 [Plymouth Theme]
-Name=Sirf Project
+Name=Sirf
 Description=Sirf Project's spinner theme using the ACPI BGRT graphics as background
 ModuleName=two-step
 
 [two-step]
 Font=Ubuntu 12
 TitleFont=Ubuntu Light 30
-ImageDir=/usr/share/plymouth/themes/sirf-project
+ImageDir=/usr/share/plymouth/themes/sirf
 DialogHorizontalAlignment=.5
 DialogVerticalAlignment=.7
 TitleHorizontalAlignment=.5
