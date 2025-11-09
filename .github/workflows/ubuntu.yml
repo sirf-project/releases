@@ -10,6 +10,7 @@ on:
       - '.github/workflows/ubuntu.yml'
     branches:
       - main
+      - 'feat/**'
   workflow_dispatch:
 
 jobs:
