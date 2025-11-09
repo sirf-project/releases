@@ -1,10 +1,15 @@
 target "default" {
   name        = variant
   description = "Build Sirf Project base image for Ubuntu ${variant}"
-  inherits = [ "common" ]
+  inherits    = ["common"]
 
   matrix = {
     variant = ["current", "core24", "dev", "lts"]
+  }
+
+  args = {
+    PLYMOUTH_FONT       = "Ubuntu Sans 11"
+    PLYMOUTH_TITLE_FONT = "Ubuntu Sans Light 30"
   }
 
   cache-to = cache_to("ubuntu:${variant}")
@@ -37,9 +42,9 @@ function "tag" {
   result = lookup(
     {
       current = "rolling"
-      core24 = "24.04"
-      dev = "devel"
-      lts    = "latest"
+      core24  = "24.04"
+      dev     = "devel"
+      lts     = "latest"
     },
     variant,
     "rolling"

@@ -1,10 +1,15 @@
 target "default" {
   name        = variant
   description = "Build Sirf Project base image for Fedora ${variant}"
-  inherits = [ "common" ]
+  inherits    = ["common"]
 
   matrix = {
     variant = ["current", "dev"]
+  }
+
+  args = {
+    PLYMOUTH_FONT       = "Adwaita Sans 11"
+    PLYMOUTH_TITLE_FONT = "Adwaita Sans Bold 30"
   }
 
   cache-to = cache_to("fedora:${variant}")

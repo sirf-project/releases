@@ -7,10 +7,14 @@ COPY --from=plymouth . /usr/share/plymouth/themes/sirf
 COPY --from=overrides . /usr/share/glib-2.0/schemas
 
 # Install Core and Standard packages
+ARG PLYMOUTH_FONT
+ARG PLYMOUTH_TITLE_FONT
 RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
     --mount=type=tmpfs,target=/var/log <<-EOF
     dnf install -y @core @standard kernel kernel-headers plymouth-theme-spinner
-    plymouth-set-default-theme sirf -R
+    sed -i "s/^Font=.*/Font=${PLYMOUTH_FONT}/" /usr/share/plymouth/themes/sirf/sirf.plymouth
+    sed -i "s/^TitleFont=.*/TitleFont=${PLYMOUTH_TITLE_FONT}/" /usr/share/plymouth/themes/sirf/sirf.plymouth
+    plymouth-set-default-theme sirf
     dnf clean all
 EOF
 
@@ -19,6 +23,7 @@ RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
     --mount=type=tmpfs,target=/var/log <<-EOF
     dnf install -y --setopt=install_weak_deps=False flatpak PackageKit snapd
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    ln -s /var/lib/snapd/snap /snap
     dnf clean all
 EOF
 
