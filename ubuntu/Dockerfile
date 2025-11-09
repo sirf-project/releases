@@ -15,8 +15,8 @@ EOF
 
 # Copy Plymouth theme and GSettings overrides
 RUN mkdir -p /usr/share/plymouth/themes/sirf
-COPY plymouth/* /usr/share/plymouth/themes/sirf
-COPY overrides /usr/share/glib-2.0/schemas/99_sirf.gschema.override
+COPY --from=plymouth . /usr/share/plymouth/themes/sirf
+COPY --from=overrides . /usr/share/glib-2.0/schemas
 
 # Install Ubuntu Minimal with Generic Kernel
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -25,8 +25,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update
     DEBIAN_FRONTEND=noninteractive apt-get install -y ubuntu-minimal ubuntu-standard grub-efi plymouth-theme-spinner linux-generic
     update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/sirf/sirf.plymouth 200
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends snapd xdelta3 flatpak
-    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     apt-get clean
 EOF
 
