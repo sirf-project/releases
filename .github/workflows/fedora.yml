@@ -72,25 +72,3 @@ jobs:
             ../common/docker-bake.hcl
             docker-bake.hcl
           push: ${{ github.ref_name == 'main' }}
-
-      - name: Install Cosign
-        if: github.ref_name == 'main'
-        uses: sigstore/cosign-installer@v3
-
-      - name: Get digests and sign images
-        if: github.ref_name == 'main'
-        env:
-          BASE: ${{ matrix.target }}
-        run: |
-          # Get digests
-          GHCR_DIGEST=$(docker buildx imagetools inspect ghcr.io/sirf-project/releases/${BASE} | grep "^Digest:" | awk '{print $2}')
-          QUAY_DIGEST=$(docker buildx imagetools inspect quay.io/sirf-project/releases/${BASE} | grep "^Digest:" | awk '{print $2}')
-
-          echo "✓ GHCR digest: ${GHCR_DIGEST}"
-          echo "✓ Quay digest: ${QUAY_DIGEST}"
-
-          # Sign images
-          echo "Signing images..."
-          cosign sign --yes ghcr.io/sirf-project/releases/${BASE}@${GHCR_DIGEST}
-          cosign sign --yes quay.io/sirf-project/releases/${BASE}@${QUAY_DIGEST}
-          echo "✓ ${BASE} signed"
