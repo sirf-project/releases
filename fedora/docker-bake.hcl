@@ -17,7 +17,7 @@ target "default" {
   cache-from = cache_from("fedora:${variant}")
 
   contexts = {
-    fedora-base = "docker-image://docker.io/library/fedora:${tag(variant)}"
+    fedora-base = "docker-image://quay.io/fedora/fedora:${tag(variant)}"
   }
 
   tags = image_tag("fedora:${variant}")
@@ -26,14 +26,14 @@ target "default" {
     "Base Fedora:${variant} Image",
     "Base Fedora Image for Sirf Project with snapd, flatpak and kernel",
     "${variant}",
-    "docker.io/library/fedora:${tag(variant)}"
+    "quay.io/fedora/fedora:${tag(variant)}"
   )
 
   labels = oci_labels(
     "Base Fedora ${variant} Image",
     "Base Fedora Image for Sirf Project with snapd, flatpak and kernel",
     "${variant}",
-    "docker.io/library/fedora:${tag(variant)}"
+    "quay.io/fedora/fedora:${tag(variant)}"
   )
 }
 
