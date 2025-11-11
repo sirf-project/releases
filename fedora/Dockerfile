@@ -11,10 +11,11 @@ ARG PLYMOUTH_FONT
 ARG PLYMOUTH_TITLE_FONT
 RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
     --mount=type=tmpfs,target=/var/log <<-EOF
-    dnf install -y @core @standard kernel kernel-headers plymouth-theme-spinner
+    dnf install -y @anaconda-tools @core @container-management @hardware-support kernel kernel-headers plymouth-theme-spinner @standard
     sed -i "s/^Font=.*/Font=${PLYMOUTH_FONT}/" /usr/share/plymouth/themes/sirf/sirf.plymouth
     sed -i "s/^TitleFont=.*/TitleFont=${PLYMOUTH_TITLE_FONT}/" /usr/share/plymouth/themes/sirf/sirf.plymouth
     plymouth-set-default-theme sirf
+    dnf install -y grub2-efi grub2-efi-modules shim-\*
     dnf clean all
 EOF
 
