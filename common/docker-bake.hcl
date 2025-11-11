@@ -7,7 +7,6 @@ target "common" {
   ]
 
   dockerfile = "Dockerfile"
-  platforms  = ["linux/amd64", "linux/arm64"]
   output     = ["type=image,compression=zstd,compression-level=13"]
 
   contexts = {
@@ -17,12 +16,12 @@ target "common" {
 
 }
 
-# Function to define cache-from
+# Function to define cache-from with platform-specific paths
 function "cache_from" {
   params = [tag]
   result = [
-    "type=registry,ref=ghcr.io/sirf-project/releases/${tag}-buildcache",
-    "type=registry,ref=ghcr.io/sirf-project/releases/${tag}"
+    "type=registry,ref=ghcr.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}-buildcache",
+    "type=registry,ref=ghcr.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}"
   ]
 }
 
@@ -30,7 +29,7 @@ function "cache_from" {
 function "cache_to" {
   params = [tag]
   result = [
-    "type=registry,ref=ghcr.io/sirf-project/releases/${tag}-buildcache,mode=max,compression=zstd,compression-level=5,ignore-error=true",
+    "type=registry,ref=ghcr.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}-buildcache,mode=max,compression=zstd,compression-level=5,ignore-error=true",
     "type=inline"
   ]
 }
@@ -71,11 +70,11 @@ function "oci_labels" {
   }
 }
 
-# Function to generate image tags for EDAP and CDP registries
+# Function to generate image tags for EDAP and CDP registries with platform prefix
 function "image_tag" {
   params = [tag]
   result = [
-    "ghcr.io/sirf-project/releases/${tag}",
-    "quay.io/sirf-project/releases/${tag}"
+    "ghcr.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}",
+    "quay.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}"
   ]
 }
