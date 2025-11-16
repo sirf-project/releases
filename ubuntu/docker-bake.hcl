@@ -4,7 +4,7 @@ target "default" {
   inherits    = ["common"]
 
   matrix = {
-    variant = ["current", "core24", "dev", "lts"]
+    variant = ["current", "dev", "lts"]
   }
 
   cache-to = cache_to("ubuntu:${variant}")
@@ -37,7 +37,6 @@ function "tag" {
   result = lookup(
     {
       current = "rolling"
-      core24  = "24.04"
       dev     = "devel"
       lts     = "latest"
     },
