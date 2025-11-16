@@ -16,8 +16,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
     --mount=type=tmpfs,target=/var/log <<-EOF
     apt-get update
-    DEBIAN_FRONTEND=noninteractive apt-get install -y tasksel grub-efi linux-base linux-perf linux-image-generic linux-headers-generic firmware-linux-free firmware-linux-nonfree
+    DEBIAN_FRONTEND=noninteractive apt-get install -y tasksel console-setup dosfstools ed eject ftp hdparm info lshw netcat-openbsd netplan.io parted rsync strace sudo time usbutils
     tasksel install standard
+    DEBIAN_FRONTEND=noninteractive apt-get install -y firmware-linux-free firmware-linux-nonfree grub-efi linux-base linux-perf linux-image-generic linux-headers-generic plymouth-themes
+    plymouth-set-default-theme bgrt
     apt-get clean
 EOF
 
