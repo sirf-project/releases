@@ -11,7 +11,7 @@ ARG PLYMOUTH_FONT
 ARG PLYMOUTH_TITLE_FONT
 RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
     --mount=type=tmpfs,target=/var/log <<-EOF
-    dnf install -y @anaconda-tools @core @hardware-support kernel kernel-headers plymouth-theme-spinner @standard
+    dnf install -y @core @hardware-support kernel kernel-headers plymouth-theme-spinner @standard
     sed -i "s/^Font=.*/Font=${PLYMOUTH_FONT}/" /usr/share/plymouth/themes/sirf/sirf.plymouth
     sed -i "s/^TitleFont=.*/TitleFont=${PLYMOUTH_TITLE_FONT}/" /usr/share/plymouth/themes/sirf/sirf.plymouth
     plymouth-set-default-theme sirf
