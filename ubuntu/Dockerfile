@@ -7,9 +7,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=tmpfs,target=/var/log <<-EOF
     apt-get update
     apt-get dist-upgrade -y
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends perl
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends perl adduser
     deluser --remove-home ubuntu
-    apt-get purge -y --auto-remove perl
+    apt-get purge -y --auto-remove perl adduser
     apt-get clean
 EOF
 
