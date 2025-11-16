@@ -7,11 +7,6 @@ target "default" {
     variant = ["current", "dev", "lts"]
   }
 
-  args = {
-    PLYMOUTH_FONT       = "DejaVu Sans 11"
-    PLYMOUTH_TITLE_FONT = "DejaVu Sans Bold 30"
-  }
-
   cache-to = cache_to("debian:${variant}")
 
   cache-from = cache_from("debian:${variant}")

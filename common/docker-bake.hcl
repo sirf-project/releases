@@ -9,11 +9,6 @@ target "common" {
   dockerfile = "Dockerfile"
   output     = ["type=image,compression=zstd,compression-level=13"]
 
-  contexts = {
-    plymouth  = "../plymouth"
-    overrides = "../overrides"
-  }
-
 }
 
 # Function to define cache-from with platform-specific paths

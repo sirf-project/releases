@@ -7,11 +7,6 @@ target "default" {
     variant = ["current", "dev"]
   }
 
-  args = {
-    PLYMOUTH_FONT       = "Adwaita Sans 11"
-    PLYMOUTH_TITLE_FONT = "Adwaita Sans Bold 30"
-  }
-
   cache-to = cache_to("fedora:${variant}")
 
   cache-from = cache_from("fedora:${variant}")

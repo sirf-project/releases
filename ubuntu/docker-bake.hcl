@@ -7,11 +7,6 @@ target "default" {
     variant = ["current", "core24", "dev", "lts"]
   }
 
-  args = {
-    PLYMOUTH_FONT       = "Ubuntu Sans 11"
-    PLYMOUTH_TITLE_FONT = "Ubuntu Sans Light 30"
-  }
-
   cache-to = cache_to("ubuntu:${variant}")
 
   cache-from = cache_from("ubuntu:${variant}")
