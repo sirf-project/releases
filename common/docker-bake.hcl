@@ -1,4 +1,7 @@
-# Common Docker Bake configuration for EDAP/CDP Docker images
+variable "GITHUB_SHA" {
+  default = "main"
+}
+
 target "common" {
   pull = true
   attest = [
@@ -39,6 +42,7 @@ function "oci_annotations" {
     "org.opencontainers.image.url=https://github.com/sirf-project/releases",
     "org.opencontainers.image.source=https://github.com/sirf-project/releases",
     "org.opencontainers.image.documentation=https://github.com/sirf-project/releases#readme",
+    "org.opencontainers.image.revision=${GITHUB_SHA}",
     "org.opencontainers.image.licenses=GPL-3.0-or-later",
     "org.opencontainers.image.created=${timestamp()}",
     "org.opencontainers.image.authors=Sirf Project Contributors",
@@ -57,6 +61,7 @@ function "oci_labels" {
     "org.opencontainers.image.url"           = "https://github.com/sirf-project/releases"
     "org.opencontainers.image.source"        = "https://github.com/sirf-project/releases"
     "org.opencontainers.image.documentation" = "https://github.com/sirf-project/releases#readme"
+    "org.opencontainers.image.revision"      = GITHUB_SHA
     "org.opencontainers.image.licenses"      = "GPL-3.0-or-later"
     "org.opencontainers.image.created"       = timestamp()
     "org.opencontainers.image.authors"       = "Sirf Project Contributors"
