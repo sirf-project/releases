@@ -10,7 +10,7 @@ target "common" {
   ]
 
   dockerfile = "Dockerfile"
-  output     = ["type=image,compression=zstd,compression-level=13"]
+  output     = ["type=image,compression=zstd,compression-level=19"]
 
 }
 
@@ -19,7 +19,9 @@ function "cache_from" {
   params = [tag]
   result = [
     "type=registry,ref=ghcr.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}-buildcache",
-    "type=registry,ref=ghcr.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}"
+    "type=registry,ref=quay.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}-buildcache",
+    "type=registry,ref=ghcr.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}",
+    "type=registry,ref=quay.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}",
   ]
 }
 
@@ -27,7 +29,8 @@ function "cache_from" {
 function "cache_to" {
   params = [tag]
   result = [
-    "type=registry,ref=ghcr.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}-buildcache,mode=max,compression=zstd,compression-level=5,ignore-error=true",
+    "type=registry,ref=ghcr.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}-buildcache,mode=max,compression=zstd,compression-level=19,ignore-error=true",
+    "type=registry,ref=quay.io/sirf-project/releases/${split("/", BAKE_LOCAL_PLATFORM)[1]}/${tag}-buildcache,mode=max,compression=zstd,compression-level=19,ignore-error=true",
     "type=inline"
   ]
 }
