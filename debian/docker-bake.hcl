@@ -21,14 +21,16 @@ target "default" {
     "Base Debian:${variant} Image",
     "Base Debian Image for Sirf Project with snapd, flatpak and kernel",
     "${variant}",
-    "docker.io/library/debian:${tag(variant)}"
+    "docker.io/library/debian:${tag(variant)}",
+    "debian:${variant}"
   )
 
   labels = oci_labels(
     "Base Debian ${variant} Image",
     "Base Debian Image for Sirf Project with snapd, flatpak and kernel",
     "${variant}",
-    "docker.io/library/debian:${tag(variant)}"
+    "docker.io/library/debian:${tag(variant)}",
+    "debian:${variant}"
   )
 }
 

@@ -21,14 +21,16 @@ target "default" {
     "Base Ubuntu:${variant} Image",
     "Base Ubuntu Image for Sirf Project with snapd, flatpak and kernel",
     "${variant}",
-    "docker.io/library/ubuntu:${tag(variant)}"
+    "docker.io/library/ubuntu:${tag(variant)}",
+    "ubuntu:${variant}"
   )
 
   labels = oci_labels(
     "Base Ubuntu ${variant} Image",
     "Base Ubuntu Image for Sirf Project with snapd, flatpak and kernel",
     "${variant}",
-    "docker.io/library/ubuntu:${tag(variant)}"
+    "docker.io/library/ubuntu:${tag(variant)}",
+    "ubuntu:${variant}"
   )
 }
 

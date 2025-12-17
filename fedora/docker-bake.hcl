@@ -21,14 +21,16 @@ target "default" {
     "Base Fedora:${variant} Image",
     "Base Fedora Image for Sirf Project with snapd, flatpak and kernel",
     "${variant}",
-    "quay.io/fedora/fedora:${tag(variant)}"
+    "quay.io/fedora/fedora:${tag(variant)}",
+    "fedora:${variant}"
   )
 
   labels = oci_labels(
     "Base Fedora ${variant} Image",
     "Base Fedora Image for Sirf Project with snapd, flatpak and kernel",
     "${variant}",
-    "quay.io/fedora/fedora:${tag(variant)}"
+    "quay.io/fedora/fedora:${tag(variant)}",
+    "fedora:${variant}"
   )
 }
 
