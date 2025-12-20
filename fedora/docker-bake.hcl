@@ -4,7 +4,7 @@ target "default" {
   inherits    = ["common"]
 
   matrix = {
-    variant = ["current", "dev"]
+    variant = ["dev", "latest"]
   }
 
   cache-to = cache_to("fedora:${variant}")

@@ -4,7 +4,7 @@ target "default" {
   inherits    = ["common"]
 
   matrix = {
-    variant = ["current", "dev", "lts"]
+    variant = ["dev", "latest", "lts"]
   }
 
   cache-to = cache_to("debian:${variant}")
@@ -37,9 +37,9 @@ target "default" {
 function "tag" {
   params = [variant]
   result = lookup(
-    {
-      current = "testing"
+    {      
       dev     = "unstable"
+      latest  = "testing"
       lts     = "stable"
     },
     variant,

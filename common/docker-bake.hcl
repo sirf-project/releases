@@ -10,6 +10,14 @@ variable "BAKE_LOCAL_PLATFORM" {
   }
 }
 
+variable "BASE_IMAGE_DIGEST" {
+  default = ""
+}
+
+variable "BUILD_NUMBER" {
+  default = ""
+}
+
 target "common" {
   pull    = true
   network = "default"
@@ -19,7 +27,7 @@ target "common" {
   ]
 
   dockerfile = "Dockerfile"
-  output     = ["type=image,compression=zstd,compression-level=19"]
+  output     = ["type=image,compression=zstd,compression-level=19,oci-mediatypes=true,force-compression=true"]
 
 }
 
@@ -53,41 +61,76 @@ function "cache_to" {
 # Generates OCI-compliant annotations array for image manifest
 function "oci_annotations" {
   params = [title, description, version, base_name, ref_name]
-  result = [
-    "org.opencontainers.image.title=${title}",
-    "org.opencontainers.image.description=${description}",
-    "org.opencontainers.image.version=${version}",
-    "org.opencontainers.image.revision=${GITHUB_SHA}",
-    "org.opencontainers.image.created=${timestamp()}",
-    "org.opencontainers.image.url=https://github.com/sirf-project/releases",
-    "org.opencontainers.image.source=https://github.com/sirf-project/releases",
-    "org.opencontainers.image.documentation=https://github.com/sirf-project/releases#readme",
-    "org.opencontainers.image.licenses=GPL-3.0-or-later",
-    "org.opencontainers.image.vendor=Sirf Project",
-    "org.opencontainers.image.authors=Sirf Project Contributors",
-    "org.opencontainers.image.base.name=${base_name}",
-    "org.opencontainers.image.ref.name=${ref_name}"
-  ]
+  result = concat(
+    [
+      "index:org.opencontainers.image.created=${timestamp()}",
+      "index:org.opencontainers.image.authors=Sirf Project Contributors",
+      "index:org.opencontainers.image.url=https://github.com/sirf-project/releases",
+      "index:org.opencontainers.image.documentation=https://github.com/sirf-project/releases#readme",
+      "index:org.opencontainers.image.source=https://github.com/sirf-project/releases",
+      "index:org.opencontainers.image.version=${version}",
+      "index:org.opencontainers.image.revision=${GITHUB_SHA}",
+      "index:org.opencontainers.image.vendor=Sirf Project",
+      "index:org.opencontainers.image.licenses=GPL-3.0-or-later",
+      "index:org.opencontainers.image.title=${title}",
+      "index:org.opencontainers.image.description=${description}",
+      "index:org.opencontainers.image.base.name=${base_name}",
+      "index:org.opencontainers.image.ref.name=${ref_name}",
+      "manifest:org.opencontainers.image.created=${timestamp()}",
+      "manifest:org.opencontainers.image.authors=Sirf Project Contributors",
+      "manifest:org.opencontainers.image.url=https://github.com/sirf-project/releases",
+      "manifest:org.opencontainers.image.documentation=https://github.com/sirf-project/releases#readme",
+      "manifest:org.opencontainers.image.source=https://github.com/sirf-project/releases",
+      "manifest:org.opencontainers.image.version=${version}",
+      "manifest:org.opencontainers.image.revision=${GITHUB_SHA}",
+      "manifest:org.opencontainers.image.vendor=Sirf Project",
+      "manifest:org.opencontainers.image.licenses=GPL-3.0-or-later",
+      "manifest:org.opencontainers.image.title=${title}",
+      "manifest:org.opencontainers.image.description=${description}",
+      "manifest:org.opencontainers.image.base.name=${base_name}",
+      "manifest:org.opencontainers.image.ref.name=${ref_name}",
+      "manifest:org.opencontainers.image.architecture=${platform_arch()}",
+      "manifest:org.opencontainers.image.os=linux"
+    ],
+    BASE_IMAGE_DIGEST != "" ? [
+      "index:org.opencontainers.image.base.digest=${BASE_IMAGE_DIGEST}",
+      "manifest:org.opencontainers.image.base.digest=${BASE_IMAGE_DIGEST}"
+    ] : [],
+    BUILD_NUMBER != "" ? [
+      "index:org.opencontainers.image.build.number=${BUILD_NUMBER}",
+      "manifest:org.opencontainers.image.build.number=${BUILD_NUMBER}"
+    ] : []
+  )
 }
 
 # Generates OCI-compliant labels map for Dockerfile LABEL directive
 function "oci_labels" {
   params = [title, description, version, base_name, ref_name]
-  result = {
-    "org.opencontainers.image.title"         = title
-    "org.opencontainers.image.description"   = description
-    "org.opencontainers.image.version"       = version
-    "org.opencontainers.image.revision"      = GITHUB_SHA
-    "org.opencontainers.image.created"       = timestamp()
-    "org.opencontainers.image.url"           = "https://github.com/sirf-project/releases"
-    "org.opencontainers.image.source"        = "https://github.com/sirf-project/releases"
-    "org.opencontainers.image.documentation" = "https://github.com/sirf-project/releases#readme"
-    "org.opencontainers.image.licenses"      = "GPL-3.0-or-later"
-    "org.opencontainers.image.vendor"        = "Sirf Project"
-    "org.opencontainers.image.authors"       = "Sirf Project Contributors"
-    "org.opencontainers.image.base.name"     = base_name
-    "org.opencontainers.image.ref.name"      = ref_name
-  }
+  result = merge(
+    {
+      "org.opencontainers.image.title"         = title
+      "org.opencontainers.image.description"   = description
+      "org.opencontainers.image.version"       = version
+      "org.opencontainers.image.revision"      = GITHUB_SHA
+      "org.opencontainers.image.created"       = timestamp()
+      "org.opencontainers.image.url"           = "https://github.com/sirf-project/releases"
+      "org.opencontainers.image.source"        = "https://github.com/sirf-project/releases"
+      "org.opencontainers.image.documentation" = "https://github.com/sirf-project/releases#readme"
+      "org.opencontainers.image.licenses"      = "GPL-3.0-or-later"
+      "org.opencontainers.image.vendor"        = "Sirf Project"
+      "org.opencontainers.image.authors"       = "Sirf Project Contributors"
+      "org.opencontainers.image.base.name"     = base_name
+      "org.opencontainers.image.ref.name"      = ref_name
+      "org.opencontainers.image.architecture"  = platform_arch()
+      "org.opencontainers.image.os"            = "linux"
+    },
+    BASE_IMAGE_DIGEST != "" ? {
+      "org.opencontainers.image.base.digest" = BASE_IMAGE_DIGEST
+    } : {},
+    BUILD_NUMBER != "" ? {
+      "org.opencontainers.image.build.number" = BUILD_NUMBER
+    } : {}
+  )
 }
 
 # Generates platform-specific image tags for GHCR and Quay registries
